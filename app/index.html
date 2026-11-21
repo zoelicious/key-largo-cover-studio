@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Key Largo — GTA-style Cover Art Studio</title>
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <span class="brand-mark">★</span>
+    <div>
+      <h1>KEY LARGO</h1>
+      <p>Cover Art Studio — turn your photos into a GTA-style poster</p>
+    </div>
+  </div>
+  <div class="top-actions">
+    <button id="undo" type="button">↩ Undo</button>
+    <button id="redo" type="button">↪ Redo</button>
+  </div>
+</header>
+
+<nav class="steps" aria-label="Three steps">
+  <button class="step active" type="button" data-step="1"><b>1</b> Add photos</button>
+  <button class="step" type="button" data-step="2"><b>2</b> Caption</button>
+  <button class="step" type="button" data-step="3"><b>3</b> Export PNG</button>
+</nav>
+
+<main class="layout">
+  <aside class="left">
+    <section class="step-panel" data-step="1">
+      <h2>1 · Add photos</h2>
+      <p class="hint">Your photos stay on your device — nothing is uploaded. Click a panel below, then pick a photo to fill it, or tap a sample.</p>
+      <label class="upload">Add your photos
+        <input id="photo-input" type="file" accept="image/*" multiple>
+      </label>
+      <h3>Try sample photos</h3>
+      <div id="sample-tray" class="sample-tray"></div>
+      <button id="to-step-2" class="primary" type="button">Next: Caption →</button>
+    </section>
+    <section class="step-panel" data-step="2" hidden>
+      <h2>2 · Caption the crew</h2>
+      <p class="hint">Every word on the poster is yours to edit. The preview updates live.</p>
+      <label>Title <input id="field-title" type="text" maxlength="24" value="KEY LARGO"></label>
+      <label>Script subtitle <input id="field-script" type="text" maxlength="48" value="one last summer in the Keys"></label>
+      <label>Tagline <input id="field-tagline" type="text" maxlength="64" value="SIX SNAPS · ONE SUMMER · NO REGRETS"></label>
+      <label>Press quote <input id="field-quote" type="text" maxlength="48" value="PURE GOLDEN-HOUR MAYHEM"></label>
+      <label>Outlet <input id="field-outlet" type="text" maxlength="32" value="THE KEYS LEDGER"></label>
+      <label>Billing <input id="field-billing" type="text" maxlength="96" value="KEY LARGO COVER STUDIO  •  A CREW OF SEVEN  •  SHOT ON THE KEYS"></label>
+      <label>Seal <input id="field-seal" type="text" maxlength="16" value="BEST CREW"></label>
+      <label>Edition tag <input id="field-edition" type="text" maxlength="16" value="VOL. 02"></label>
+      <div class="row">
+        <button id="back-to-1" type="button">← Photos</button>
+        <button id="to-step-3" class="primary" type="button">Next: Export →</button>
+      </div>
+    </section>
+    <section class="step-panel" data-step="3" hidden>
+      <h2>3 · Export PNG</h2>
+      <p class="hint">One photo, three post sizes — or take all three at once.</p>
+      <div class="export-list">
+        <button type="button" data-export="1:1">Export PNG · 1080 x 1080</button>
+        <button type="button" data-export="4:5">Export PNG · 1080 x 1350</button>
+        <button type="button" data-export="16:9">Export PNG · 1920 x 1080</button>
+        <button id="export-all" type="button" class="primary">Export all three</button>
+      </div>
+      <button id="back-to-2" type="button">← Caption</button>
+      <p class="privacy">🔒 Photos never leave your device.</p>
+    </section>
+  </aside>
+
+  <section class="center">
+    <div class="preview-bar">
+      <div id="size-tabs" class="size-tabs" role="tablist" aria-label="Cover size">
+        <button type="button" data-size="1:1">1:1</button>
+        <button type="button" data-size="4:5">4:5</button>
+        <button type="button" data-size="16:9" class="active">16:9</button>
+      </div>
+      <div id="grade-chips" class="grade-chips" aria-label="Colour grade">
+        <button type="button" data-grade="sunset" class="active">Sunset</button>
+        <button type="button" data-grade="golden">Golden Hour</button>
+        <button type="button" data-grade="neon">Neon Night</button>
+        <button type="button" data-grade="vice">Vice Pink</button>
+      </div>
+    </div>
+    <div class="preview-wrap">
+      <canvas id="preview" width="1920" height="1080" aria-label="Live cover preview"></canvas>
+    </div>
+    <p id="status" role="status"></p>
+  </section>
+
+  <aside class="right">
+    <h2>Panel</h2>
+    <p id="panel-name" class="panel-name">Panel 1 — THE CAPTAIN</p>
+    <div id="panel-list" class="panel-list"></div>
+    <label>Caption line
+      <input id="panel-sub" type="text" maxlength="64" value="MARINA DEL SOL · 6:40 PM · OWNS THE BOAT">
+    </label>
+    <label>Zoom <input id="panel-zoom" type="range" min="1" max="2.5" step="0.05" value="1"></label>
+    <p class="hint">Drag the preview to pan the selected photo.</p>
+    <div class="panel-actions">
+      <button id="panel-flip" type="button">Flip</button>
+      <button id="panel-swap" type="button">Swap →</button>
+      <button id="panel-reset" type="button">Reset</button>
+    </div>
+    <h3>How it works</h3>
+    <ol class="how">
+      <li>Add up to seven photos — one fills the hero panel, the rest fill the grid.</li>
+      <li>Caption each panel: role, place, time and a quip.</li>
+      <li>Pick a grade and a size, then export a PNG to share.</li>
+    </ol>
+  </aside>
+</main>
+
+<footer class="foot">
+  <p>Key Largo Cover Studio — original art, no Rockstar logos, artwork or fonts. Fonts: Anton, Oswald and Pacifico under the SIL Open Font License (see app/fonts/OFL.txt). Sample photos were made with an image model for this app.</p>
+</footer>
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>
